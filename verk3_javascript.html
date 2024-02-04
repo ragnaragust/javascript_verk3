@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fullscreen API Example</title>
+    <style>
+        #myElement {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            background-color: #f0f0f0;
+        }
+
+        #centeredBall {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 50px;
+            height: 50px;
+            background-color: #3498db;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="myElement" ontouchstart="handleTouchStart(event)" ontouchmove="handleTouchMove(event)">
+        <div id="centeredBall"></div>
+        <button onclick="toggleFullscreen()">Swipe to Toggle Fullscreen</button>
+    </div>
+
+    <script>
+        let touchStartX = 0;
+        const swipeThreshold = 50; // Adjust this value as needed
+
+        function handleTouchStart(event) {
+            touchStartX = event.touches[0].clientX;
+        }
+
+        function handleTouchMove(event) {
+            const touchEndX = event.touches[0].clientX;
+            const swipeDistance = touchEndX - touchStartX;
+
+            if (swipeDistance > swipeThreshold) {
+                // Swipe right
+                toggleFullscreen();
+                showBall();
+            }
+        }
+
+        function toggleFullscreen() {
+            const element = document.getElementById('myElement');
+
+            if (document.fullscreenElement) {
+                document.exitFullscreen();
+            } else if (element.requestFullscreen) {
+                element.requestFullscreen();
+            }
+        }
+
+        function showBall() {
+            const centeredBall = document.getElementById('centeredBall');
+            centeredBall.style.display = 'block';
+        }
+    </script>
+
+</body>
+</html>
